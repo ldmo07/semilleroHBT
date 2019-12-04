@@ -41,6 +41,11 @@ export class TallerComponent implements OnInit {
 
   ngOnInit(): void {
     
+     /**
+ * @description Asignamos los valores a las variables para que se llenen cuando se ejecute
+ * el metodo abstracto de la interfaz OnInit y se muestren el componente html
+ */
+
     this.Direccion="Monteria Vereda Aguas Negras";
 
     this.Nombre="Luis David Mercado Ortega";
