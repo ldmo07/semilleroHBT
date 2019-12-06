@@ -26,10 +26,24 @@ public class Personaje implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEC_PERSONAJE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONAJE_ID_GENERATOR")
+	@Column(name = "PERS_ID")
 	private long id;
+	
+	@Column(name = "PERS_ID_COMIC")
 	private long idcomic;
+	
+	@Column(name = "PERS_NOMBRE")
 	private String nombre;
+	
+	@Column(name = "PERS_ESTADO")
+	@Enumerated(value = EnumType.STRING)
 	private String estado;
+	
+	@Column(name = "PERS_SUPERPODER")
 	private String superpoder;
 	/**
 	 * Constructor de la clase.
@@ -39,7 +53,6 @@ public class Personaje implements Serializable {
 	}
 	
 	
-	@Column(name = "PERS_ID_COMIC")
 	public long getIdcomic() {
 		return idcomic;
 	}
@@ -51,7 +64,7 @@ public class Personaje implements Serializable {
 	}
 
 
-	@Column(name = "PERS_ESTADO")
+	
 	public String getEstado() {
 		return estado;
 	}
@@ -62,8 +75,6 @@ public class Personaje implements Serializable {
 		this.estado = estado;
 	}
 
-
-	@Column(name = "PERS_SUPERPODER")
 	public String getSuperpoder() {
 		return superpoder;
 	}
@@ -88,7 +99,7 @@ public class Personaje implements Serializable {
 
 
 	
-	@Column(name = "PERS_NOMBRE")
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -104,10 +115,7 @@ public class Personaje implements Serializable {
 	 * 
 	 * @return El id asociado a la clase
 	 */
-	@Id
-	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEC_PERSONAJE")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONAJE_ID_GENERATOR")
-	@Column(name = "PERS_ID")
+	
 	public Long getId() {
 		return id;
 	}
