@@ -1,34 +1,22 @@
 package com.hbt.semillero.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
-import com.hbt.semillero.entidad.EstadoEnum;
-import com.hbt.semillero.entidad.TematicaEnum;
-
-/**
- * <b>Descripción:<b> Clase que determina el dto a usar para modificar,
- * consultar y posteriormente eliminar un comic
- * 
- * @author ccastano
- */
-public class PersonajeDTO implements Serializable {
-
-	/**
-	 * Atributo que determina
+public class RolDTO implements Serializable{
+	/*
+	 * @descripcion Esta clase se hace para hacer el mapeo con los campos de la 
+	 * tabla Rol en la base de datos 
 	 */
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	private long id;
-	private long idcomic;
+	private long idpersonaje;
 	private String nombre;
 	private String estado;
-	private String superpoder;
 	
-	public PersonajeDTO() {}
-	
-	
+	public RolDTO() {}
+
 	public long getId() {
 		return id;
 	}
@@ -37,12 +25,12 @@ public class PersonajeDTO implements Serializable {
 		this.id = id;
 	}
 
-	public long getIdcomic() {
-		return idcomic;
+	public long getIdpersonaje() {
+		return idpersonaje;
 	}
 
-	public void setIdcomic(long idcomic) {
-		this.idcomic = idcomic;
+	public void setIdpersonaje(long idpersonaje) {
+		this.idpersonaje = idpersonaje;
 	}
 
 	public String getNombre() {
@@ -60,36 +48,24 @@ public class PersonajeDTO implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-	public String getSuperpoder() {
-		return superpoder;
-	}
-
-	public void setSuperpoder(String superpoder) {
-		this.superpoder = superpoder;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static PersonajeDTO valueOf(String arg) {
-		return JsonUtils.valueOf(arg, PersonajeDTO.class);
+	
+	
+	/**
+	 * Método encargado de convertir los datos recibidos en JSON al tipo RolDTO.
+	*/
+	public static RolDTO valueOf(String arg) {
+		return JsonUtils.valueOf(arg, RolDTO.class);
 	}
 
 	/**
-	 * Método encargado de convertir los datos recibidos en ComicDTO al JSON
+	 * Método encargado de convertir los datos recibidos en RolDTO al JSON
 	 * esperado
-	 * 
-	 * @param dto DTO
-	 * 
-	 * @return Json
 	 */
+	
 	@Override
 	public String toString() {
 		return JsonUtils.toStringJson(this);
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -97,12 +73,10 @@ public class PersonajeDTO implements Serializable {
 		int result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (idcomic ^ (idcomic >>> 32));
+		result = prime * result + (int) (idpersonaje ^ (idpersonaje >>> 32));
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((superpoder == null) ? 0 : superpoder.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -112,7 +86,7 @@ public class PersonajeDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PersonajeDTO other = (PersonajeDTO) obj;
+		RolDTO other = (RolDTO) obj;
 		if (estado == null) {
 			if (other.estado != null)
 				return false;
@@ -120,21 +94,16 @@ public class PersonajeDTO implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
-		if (idcomic != other.idcomic)
+		if (idpersonaje != other.idpersonaje)
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (superpoder == null) {
-			if (other.superpoder != null)
-				return false;
-		} else if (!superpoder.equals(other.superpoder))
-			return false;
 		return true;
 	}
 	
 	
-
+	
 }

@@ -57,7 +57,7 @@ public interface IGestionarPersonajeLocal {
 	 * @return Personaje Resultado de la consulta
 	 * @throws Exception si no se recibe idPersonaje
 	 */
-	public PersonajeDTO consultarPersonaje(String idPersonaje);
+	public List<PersonajeDTO>consultarPersonaje(long idPersonaje);
 
 	/**
 	 * 

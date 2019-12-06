@@ -18,8 +18,10 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.dto.RolDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.Personaje;
+import com.hbt.semillero.entidad.Rol;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -86,15 +88,17 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public PersonajeDTO consultarPersonaje(String idPersonaje) {
+	public List<PersonajeDTO> consultarPersonaje(long idPersonaje) {
 		logger.debug("se Inicio el metodo  consultarPersonaje");
-
-		Personaje personaje = null;
-		personaje = new Personaje();
-		personaje = em.find(Personaje.class, Long.parseLong(idPersonaje));
-		PersonajeDTO personajeDTO = convertirPersonajeToPersonajeDTO(personaje);
+		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
+		List<Personaje> resultados = em.createQuery("select p from Personaje p where PERS_ID =:idPersonaje")
+				.setParameter("idPersonaje", idPersonaje).getResultList();
+		for (Personaje personaje : resultados) {
+			resultadosPersonajeDTO.add(convertirPersonajeToPersonajeDTO(personaje));
+		}
 		logger.debug("se Finalizo el metodo consultarPersonaje ");
-		return personajeDTO;
+		return resultadosPersonajeDTO;
+
 	}
 
 	@Override
@@ -102,8 +106,8 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	public List<PersonajeDTO> consultarPersonaje() {
 		logger.debug("se Inicio el metodo consultarPersonaje ");
 		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
-		List<Personaje> resultados = em.createQuery("select c from Comic c").getResultList();
-		for (Personaje personaje:resultados) {
+		List<Personaje> resultados = em.createQuery("select p from Personaje p").getResultList();
+		for (Personaje personaje : resultados) {
 			resultadosPersonajeDTO.add(convertirPersonajeToPersonajeDTO(personaje));
 		}
 		logger.debug("se Finalizo el metodo consultarPersonaje ");
@@ -112,39 +116,25 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 
 	private Personaje convertirPersonajeDTOToPersonaje(PersonajeDTO personajeDTO) {
 		Personaje personaje = new Personaje();
-		if (personajeDTO.getId() != null) {
-			personaje.setId(Long.parseLong(personajeDTO.getId()));
-		}
+
+		personaje.setId(personajeDTO.getId());
+		personaje.setId(personajeDTO.getId());
 		personaje.setNombre(personajeDTO.getNombre());
-		personaje.setEditorial(personajeDTO.getEditorial());
-		personaje.setTematicaEnum(personajeDTO.getTematicaEnum());
-		personaje.setColeccion(personajeDTO.getColeccion());
-		personaje.setNumeroPaginas(personajeDTO.getNumeroPaginas());
-		personaje.setPrecio(personajeDTO.getPrecio());
-		personaje.setAutores(personajeDTO.getAutores());
-		personaje.setColor(personajeDTO.getColor());
-		personaje.setFechaVenta(personajeDTO.getFechaVenta());
-		personaje.setEstadoEnum(personajeDTO.getEstadoEnum());
-		personaje.setCantidad(personajeDTO.getCantidad());
+		personaje.setEstado(personajeDTO.getEstado());
+		personaje.setSuperpoder(personajeDTO.getSuperpoder());
+		personaje.setIdcomic(personajeDTO.getIdcomic());
 		return personaje;
 	}
 
 	private PersonajeDTO convertirPersonajeToPersonajeDTO(Personaje personaje) {
+
 		PersonajeDTO personajeDTO = new PersonajeDTO();
-		if (personaje.getId() != null) {
-			personajeDTO.setId(personaje.getId().toString());
-		}
+
+		personajeDTO.setId(personaje.getId());
 		personajeDTO.setNombre(personaje.getNombre());
-		personajeDTO.setEditorial(personaje.getEditorial());
-		personajeDTO.setTematicaEnum(personaje.getTematicaEnum());
-		personajeDTO.setColeccion(personaje.getColeccion());
-		personajeDTO.setNumeroPaginas(personaje.getNumeroPaginas());
-		personajeDTO.setPrecio(personaje.getPrecio());
-		personajeDTO.setAutores(personaje.getAutores());
-		personajeDTO.setColor(personaje.getColor());
-		personajeDTO.setFechaVenta(personaje.getFechaVenta());
-		personajeDTO.setEstadoEnum(personaje.getEstadoEnum());
-		personajeDTO.setCantidad(personaje.getCantidad());
+		personajeDTO.setEstado(personaje.getEstado());
+		personajeDTO.setSuperpoder(personaje.getSuperpoder());
+		personajeDTO.setIdcomic(personaje.getIdcomic());
 		return personajeDTO;
 	}
 
