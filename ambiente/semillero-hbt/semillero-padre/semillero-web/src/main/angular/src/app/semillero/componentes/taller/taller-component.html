@@ -1,6 +1,34 @@
-
-<div class="border border-primary container col-md-6 mb-3 rounded">
-    <h3 class="text-primary">Nombre ---> {{Nombre}} </h3>
-    <h4 class="text-success"><br> Direccion ----> {{Direccion}}</h4>
+<div class="border border-primary container col-md-12 mb-3 rounded">
+    <h3 class="text-primary text-center">Nombre ---> {{Nombre}} </h3>
+    <h4 class="text-success text-center"><br> Direccion ----> {{Direccion}}</h4>
     <h4 class="text-danger"><br> Bonificacion --> {{Saludo}} Mi Nombre es {{Nombre}}</h4>
+
+
+</div>
+
+<div class="border border-success container col-md-12 mb-3 rounded">
+    <h2 class="text-danger text-center">Datos del Array Mostrado con JSON.stringify :</h2>
+    <div *ngFor="let item of listaString">
+        <br>
+        <li class="list-group-item bg-info">{{item}}</li>
+    </div>
+    <br>
+</div>
+
+<button class="btn btn-danger" (click)="eliminarObjeto(idEliminar);mostrarMensaje=!mostrarMensaje;">Eliminar
+    Dato</button>
+ El id que desea Eliminar es: {{idEliminar}}
+<input type="text" [(ngModel)]="idEliminar" placeholder="Ingrese el Id A eliminar ">
+
+<div class="border border-danger container col-md-12 mb-3 rounded" *ngIf="mostrarMensaje">
+    <h2 class="text-danger text-center">Ha Eliminado del Array :</h2>
+    <strong class="text-danger">{{datoEliminado.nombre}}</strong>
+</div>
+
+<div class="container mt-3 mb-3">
+    <h3 class="text-primary text-center">Datos Del Array Con ngFor</h3>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let item of libros">{{item.nombre}}</li>
+    </ul>
+
 </div>
