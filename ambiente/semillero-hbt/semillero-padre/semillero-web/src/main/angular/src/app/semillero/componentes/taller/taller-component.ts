@@ -48,7 +48,6 @@ export class TallerComponent implements OnInit {
   //variable que me validara si muestro un mensaje o no con el ngiF al momento de presionar un boton
   public mostrarMensaje:Boolean ;
 
-
   constructor(private router : Router, private activatedRoute: ActivatedRoute, private ejemploService: EjemploService) {
     console.log("entro al constructor del componente bienvenida");
     
@@ -87,6 +86,8 @@ export class TallerComponent implements OnInit {
 
 
     console.log(this.libros, JSON.stringify(this.libros))
+
+    //se le Asigna a la variable listaString un array de tipo string retornado por la funcion libroJsontoString()
     this.listaString = this.libroJsontoString();
 
     //this.eliminarObjeto();
@@ -119,7 +120,7 @@ export class TallerComponent implements OnInit {
   /*@descripcion metodo que se encarga de eliminar un elemento del array segun 
   una posicion recibida por parametro
   */
-  private eliminarObjeto(idEliminar:number) {
+  private eliminarObjeto(idEliminar:number){
     this.datoEliminado = this.libros[idEliminar];
     this.libros.splice(idEliminar, 1);
     this.listaString.splice(idEliminar, 1);
