@@ -1,10 +1,13 @@
 package com.hbt.semillero.ejb;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
 
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.TematicaEnum;
 
 /**
  * Expone los métodos del EJB GestionarComic Las interfaces determinan una
@@ -65,4 +68,8 @@ public interface IGestionarComicLocal {
 	 * @return
 	 */
 	public List<ComicDTO> consultarComics();
+	
+	//Metoodo que recibe la tematica y un comic para calcular el total a pagar
+	public void CalcularTotal(TematicaEnum tema,Comic co);
+	
 }

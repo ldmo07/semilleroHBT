@@ -91,7 +91,7 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	public List<PersonajeDTO> consultarPersonaje(long idPersonaje) {
 		logger.debug("se Inicio el metodo  consultarPersonaje");
 		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
-		List<Personaje> resultados = em.createQuery("select p from Personaje p where PERS_ID =:idPersonaje")
+		List<Personaje> resultados = em.createQuery("select p from Personaje p where p.id =:idPersonaje")
 				.setParameter("idPersonaje", idPersonaje).getResultList();
 		for (Personaje personaje : resultados) {
 			resultadosPersonajeDTO.add(convertirPersonajeToPersonajeDTO(personaje));

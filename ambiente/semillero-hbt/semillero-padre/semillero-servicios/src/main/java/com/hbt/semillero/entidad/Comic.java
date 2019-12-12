@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * <b>Descripción:<b> Clase que determina la entidad que permite representar la
@@ -47,7 +48,32 @@ public class Comic implements Serializable {
 	private LocalDate fechaVenta;
 	private EstadoEnum estadoEnum;
 	private Long cantidad;
+	
+	//Variables de Ejecucion no van a la Bd 
+	@Transient
+	public double TotalPago;
+	@Transient
+	public double TotalIva;
+	
+	/****** geter and seter de las variables ******/
 
+	public double getTotalPago() {
+		return TotalPago;
+	}
+
+	public void setTotalPago(double totalPago) {
+		TotalPago = totalPago;
+	}
+
+	public double getTotalIva() {
+		return TotalIva;
+	}
+
+	public void setTotalIva(double totalIva) {
+		TotalIva = totalIva;
+	}
+/*************************************************/
+	
 	/**
 	 * Constructor de la clase.
 	 */

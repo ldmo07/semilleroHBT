@@ -90,7 +90,7 @@ public class GestionarRolBean implements IGestionarRolLocal {
 		 * logger.debug("se Finalizo el metodo consultarROL ");
 		 */
 		List<RolDTO> resultadosRolDTO = new ArrayList<RolDTO>();
-		List<Rol> resultados = em.createQuery("select r from Rol r where ROL_ID=: idRol").setParameter("idRol", idRol)
+		List<Rol> resultados = em.createQuery("select r from Rol r where r.id=: idRol").setParameter("idRol", idRol)
 				.getResultList();
 		for (Rol rol : resultados) {
 			resultadosRolDTO.add(convertirRolToRolDTO(rol));

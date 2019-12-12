@@ -3,6 +3,7 @@
  */
 package com.hbt.semillero.ejb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.TematicaEnum;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -109,6 +111,14 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		for (Comic comic:resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
 		}
+		
+		/***************Se Invoca el metodo para pasarle los parametros**************************/
+		Comic co=new Comic();
+		co.setPrecio(new BigDecimal(200));
+		TematicaEnum tema=TematicaEnum.AVENTURAS;
+		   CalcularTotal(tema, co);
+		/*****************************************/
+		
 		return resultadosComicDTO;
 	}
 
@@ -163,4 +173,44 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		comic.setCantidad(comicDTO.getCantidad());
 		return comic;
 	}
+
+	/*@descripcion Implementacion del metodo que calcula el iva y el total a pagar de un comic segun su
+	 * tematica y su precio */
+	@Override
+	public void CalcularTotal(TematicaEnum tema, Comic co) {
+		//double total,iva;		
+		if(tema==TematicaEnum.AVENTURAS) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total Aventuras "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}else if(tema==TematicaEnum.BELICO) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total belico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}else if(tema==TematicaEnum.CIENCIA_FICCION) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total ficcion "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}else if(tema==TematicaEnum.DEPORTIVO) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.1);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total deportivo "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}else if(tema==TematicaEnum.FANTASTICO) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total fantastico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}if(tema==TematicaEnum.HISTORICO) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total historico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}else if(tema==TematicaEnum.HORROR) {
+			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
+			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
+			logger.debug("Total Horror "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
+		}
+		
+	}
+
+	/*@descripcion implementacion del metodo para calcular el total a apagar de un comic*/
+
 }

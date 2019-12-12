@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,7 +33,8 @@ public class Rol implements Serializable {
 	@Column(name = "ROL_ID")
 	private long id;
 	
-	@Column(name = "ROL_ID_PERSONAJE")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "ROL_ID_PERSONAJE")
 	private long idpersonaje;
 	
 	@Column(name = "ROL_NOMBRE")
