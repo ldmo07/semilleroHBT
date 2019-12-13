@@ -18,7 +18,7 @@
 <button type="submit" class="btn btn-danger" (click)="eliminarObjeto(idEliminar);mostrarMensaje=true;">Eliminar
     Dato</button>
  
-<input type="text" [(ngModel)]="idEliminar" placeholder="Ingrese el Id A eliminar " required>
+<input type="text" [(ngModel)]="idEliminar" [ngModelOptions]="{standalone: true}" placeholder="Ingrese el Id A eliminar " required>
 </form>
 <div class="border border-danger container col-md-12 mb-3 rounded" *ngIf="mostrarMensaje">
     <h2 class="text-danger text-center">Ha Eliminado del Array :</h2>
