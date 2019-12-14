@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.RolDTO;
+import com.hbt.semillero.exceptions.RolException;
 
 
 /**
@@ -28,7 +29,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @param rolDTO informacion nueva a crear
 	 */
-	public void crearRol(RolDTO rolDTO);
+	public void crearRol(RolDTO rolDTO)throws RolException;
 
 	
 	/**
@@ -39,7 +40,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @param id, nombre, rolDTO informacion nueva a modificar
 	 */
-	public void modificarRol(Long id, String nombre,RolDTO rolDTO);
+	public void modificarRol(Long id, String nombre,RolDTO rolDTO)throws RolException;
 
 	
 	/**
@@ -50,7 +51,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @param idRol informacion del id del rol a eliminar
 	 */
-	public void eliminarRol(Long idRol);
+	public void eliminarRol(Long idRol)throws RolException;
 
 	/**
 	 * 
@@ -58,7 +59,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @return List<RolDTO> Resultado de la consulta
 	 */
-	public  List<RolDTO> consultarRol();
+	public  List<RolDTO> consultarRol()throws RolException;
 	
 	/**
 	 * 
@@ -66,6 +67,6 @@ public interface IGestionarRolLocal {
 	 * @param idPersonaje El id del personaje a consultar
 	 * @return List<RolDTO> Resultado de la consulta
 	 */
-	public List<RolDTO>  consultarRoles(Long idPersonaje);
+	public List<RolDTO>  consultarRoles(Long idPersonaje)throws RolException;
 	
 }

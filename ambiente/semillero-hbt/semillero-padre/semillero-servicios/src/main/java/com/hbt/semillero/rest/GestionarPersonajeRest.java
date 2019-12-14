@@ -11,14 +11,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
 import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 @Path("/GestionarPersonaje")
 public class GestionarPersonajeRest {
-	
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 	@EJB
 	private IGestionarPersonajeLocal gestionarPersonajeEJB;
 	
@@ -33,15 +37,27 @@ public class GestionarPersonajeRest {
 	@Path("/consultarPersonaje")
 	@Produces(MediaType.APPLICATION_JSON)
 	public  List<PersonajeDTO> consultarPersonaje(){
-		return gestionarPersonajeEJB.consultarPersonaje();
-		
+		try {
+			return gestionarPersonajeEJB.consultarPersonaje();
+		} catch (PersonajeException e) {
+			
+			logger.error("excepcion consulta personaje capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
+		}
+				
 	};
 	
 	@GET
 	@Path("/consultarPersonajeById")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PersonajeDTO>  consultarPersonajes(@QueryParam("idComic") Long idComic){
-		return gestionarPersonajeEJB.consultarPersonajes(idComic);
+		try {
+			return gestionarPersonajeEJB.consultarPersonajes(idComic);
+		} catch (PersonajeException e) {
+			logger.error("excepcion consulta personaje capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
+		}
+		
 		
 	};
 	
@@ -49,7 +65,13 @@ public class GestionarPersonajeRest {
 	@Path("/crearPersonaje")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void crearPersonaje(PersonajeDTO personajeDTO) {
-		gestionarPersonajeEJB.crearPersonaje(personajeDTO);	
+		try {
+			gestionarPersonajeEJB.crearPersonaje(personajeDTO);	
+		} catch (PersonajeException e) {
+			logger.error("excepcion crear personaje capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			
+		}
+		
 	}
 
 }

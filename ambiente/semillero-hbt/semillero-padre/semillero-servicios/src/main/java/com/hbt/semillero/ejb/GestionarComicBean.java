@@ -11,6 +11,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -75,10 +76,15 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void eliminarComic(Long idComic) throws ComicException {
 		try {
-			Comic comicEliminar = em.find(Comic.class, idComic);
+			
+			/*Comic comicEliminar = em.find(Comic.class, idComic);
 			if (comicEliminar != null) {
-				em.remove(comicEliminar);
-			}
+				em.remove(comicEliminar);*/
+			Query query = (Query) em.createQuery("Delete From Comic c where c.id=:idComic").setParameter("idComic", idComic);
+			((javax.persistence.Query) query).executeUpdate();
+			em.flush();
+			em.clear();
+			
 		} catch (Exception e) {
 			logger.error("Error al eliminar comic"+e);
 			throw new ComicException("CD-00f","error ejecutando eliminacion del comic", e);

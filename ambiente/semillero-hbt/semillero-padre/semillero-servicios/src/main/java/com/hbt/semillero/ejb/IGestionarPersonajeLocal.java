@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 
 /**
@@ -28,7 +29,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @param personajeDTO informacion nueva a crear
 	 */
-	public void crearPersonaje(PersonajeDTO personajeDTO);
+	public void crearPersonaje(PersonajeDTO personajeDTO)throws PersonajeException;
 
 	
 	/**
@@ -39,7 +40,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @param id, nombre, personajeDTO informacion nueva a modificar
 	 */
-	public void modificarPersonaje(Long id, String nombre,PersonajeDTO personajeDTO);
+	public void modificarPersonaje(Long id, String nombre,PersonajeDTO personajeDTO)throws PersonajeException;
 
 	
 	/**
@@ -50,7 +51,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @param idPersonaje informacion del id del personaje a eliminar
 	 */
-	public void eliminarPersonaje(Long idPersonaje);
+	public void eliminarPersonaje(Long idPersonaje)throws PersonajeException;
 
 	/**
 	 * 
@@ -58,7 +59,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @return List<PersonajeDTO> Resultado de la consulta
 	 */
-	public  List<PersonajeDTO> consultarPersonaje();
+	public  List<PersonajeDTO> consultarPersonaje()throws PersonajeException;
 	
 	/**
 	 * 
@@ -66,6 +67,6 @@ public interface IGestionarPersonajeLocal {
 	 * @param idComic El id del comic a consultar
 	 * @return List<PersonajeDTO> Resultado de la consulta
 	 */
-	public List<PersonajeDTO>  consultarPersonajes(Long idComic);
+	public List<PersonajeDTO>  consultarPersonajes(Long idComic)throws PersonajeException;
 	
 }

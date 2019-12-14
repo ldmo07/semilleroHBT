@@ -11,13 +11,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.RolDTO;
+import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
 import com.hbt.semillero.ejb.IGestionarRolLocal;
+import com.hbt.semillero.exceptions.RolException;
 
 @Path("/GestionarRol")
 public class GestionarRolRest {
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 	
 	@EJB
 	private IGestionarRolLocal gestionarRolEJB;
@@ -33,7 +38,14 @@ public class GestionarRolRest {
 	@Path("/consultarRol")
 	@Produces(MediaType.APPLICATION_JSON)
 	public  List<RolDTO> consultarRol(){
-		return gestionarRolEJB.consultarRol();
+		try {
+			return gestionarRolEJB.consultarRol();
+		} catch (RolException e) {
+			logger.error("excepcion consultar por id capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
+		}
+		
+		
 		
 	};
 	
@@ -41,7 +53,14 @@ public class GestionarRolRest {
 	@Path("/consultarRolById")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RolDTO>  consultarRoles(@QueryParam("idPersonaje") Long idPersonaje){
-		return gestionarRolEJB.consultarRoles(idPersonaje);
+		try {
+			return gestionarRolEJB.consultarRoles(idPersonaje);
+		} catch (RolException e) {
+			logger.error("excepcion consultar capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());// TODO: handle exception
+			return null;
+		}
+		
+		
 		
 	};
 	
@@ -49,7 +68,13 @@ public class GestionarRolRest {
 	@Path("/crearRol")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void crearRol(RolDTO rolDTO) {
-		gestionarRolEJB.crearRol(rolDTO);	
+		try {
+			gestionarRolEJB.crearRol(rolDTO);	
+		} catch (RolException e) {
+			logger.error("excepcion Crear capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			
+		}
+		
 	}
 
 }
