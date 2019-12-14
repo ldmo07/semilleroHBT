@@ -108,13 +108,25 @@
                             <td>{{comic.precio | number: '.2'}}</td>
                             <td>{{comic.color ? 'Si' : 'No' }}</td>
                             <td>
-                                <i class="fas fa-search 2x ml-1" (click)="consultarComic(i)" title="Consultar"></i>
+                                <i class="fas fa-search"  [routerLink]="['/crud',comic]" title="pasar"></i>
+                                <i class="fas fa-pencil-alt 2x ml-1 text-danger" (click)="editarComic(i)" title="editar"></i>
+                                <i class="fas fa-trash-alt 2x ml-1" (click)="eliminarComic(i);mostrarMensaje=true;"></i>
+                                <!--<i class="fas fa-search 2x ml-1" (click)="consultarComic(i)" title="Consultar"></i>
                                 <i class="fas fa-pencil-alt 2x ml-1"  [routerLink]="['/bienvenida',comic]" title="Editar"></i>
-                                <i class="far fa-times-circle 2x ml-1" (click)="editarComic(comic)" title="Eliminar"></i>
+                                <i class="far fa-times-circle 2x ml-1" (click)="editarComic(comic)" title="Eliminar"></i>-->
+                                
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <!--Seccion Oculta con ngIF que contiene el msj del comic eliminado -->
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="mostrarMensaje">
+                    <h2 class="text-danger text-center">Ha Eliminado el Comic :</h2>
+                    <strong class="text-danger text-center"> {{datoEliminado.nombre}}</strong>
+                    <button type="button" class="close text-dark" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span> 
+                    </button>
+                  </div>
             </div>
         </div>
     </form>

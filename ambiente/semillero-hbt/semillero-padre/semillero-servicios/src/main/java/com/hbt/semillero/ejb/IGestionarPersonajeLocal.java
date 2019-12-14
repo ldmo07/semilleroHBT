@@ -7,63 +7,65 @@ import javax.ejb.Local;
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 
+
 /**
- * Expone los métodos del EJB GestionarComic Las interfaces determinan una
+ * Expone los métodos del EJB GestionarPersonaje Las interfaces determinan una
  * especie de contrato donde se define las firmas de los metodos, define que se
  * necesita implementar pero no el como eso lo realiza la clase que la
  * implementa Palabras claves interface e implements
  * 
- * @author Luis David Mercado Ortega
+ * @author drageloz
  *
  */
 @Local
 public interface IGestionarPersonajeLocal {
-
+	
 	/**
 	 * 
-	 * Metodo encargado de crear un Personaje y persistirlo
+	 * Metodo encargado de crear un personaje y persistirlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param personajeNuevo informacion nueva a crear
+	 * @param personajeDTO informacion nueva a crear
 	 */
-	public void crearPersonaje(PersonajeDTO personajeNuevo);
+	public void crearPersonaje(PersonajeDTO personajeDTO);
 
+	
 	/**
 	 * 
-	 * Metodo encargado de consultar un Personaje modificarlo y guardarlo
+	 * Metodo encargado de consultar un personaje, modificarlo y guardarlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param Personaje informacion nueva a modificar
+	 * @param id, nombre, personajeDTO informacion nueva a modificar
 	 */
-	public void modificarPersonaje(Long id, String nombre, PersonajeDTO comicNuevo);
+	public void modificarPersonaje(Long id, String nombre,PersonajeDTO personajeDTO);
 
+	
 	/**
 	 * 
-	 * Metodo encargado de eliminar un comic modificarlo y guardarlo
+	 * Metodo encargado de eliminar un personaje, modificarlo y guardarlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param eliminarPersonaje informacion a eliminar
+	 * @param idPersonaje informacion del id del personaje a eliminar
 	 */
 	public void eliminarPersonaje(Long idPersonaje);
 
 	/**
 	 * 
-	 * Metodo encargado de retornar la informacion de un Personaje
+	 * Metodo encargado de retornar la informacion de un personaje
 	 * 
-	 * @param idPersonaje identificador del Personaje a ser consultado
-	 * @return Personaje Resultado de la consulta
-	 * @throws Exception si no se recibe idPersonaje
+	 * @return List<PersonajeDTO> Resultado de la consulta
 	 */
-	public List<PersonajeDTO>consultarPersonaje(long idPersonaje);
-
+	public  List<PersonajeDTO> consultarPersonaje();
+	
 	/**
 	 * 
-	 * Metodo encargado de retornar una lista de Personajes
-	 * 
-	 * @return
+	 * Metodo encargado de retornar una lista de personajees 
+	 * @param idComic El id del comic a consultar
+	 * @return List<PersonajeDTO> Resultado de la consulta
 	 */
-	public List<PersonajeDTO> consultarPersonaje();
+	public List<PersonajeDTO>  consultarPersonajes(Long idComic);
+	
 }

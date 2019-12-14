@@ -2,108 +2,121 @@ package com.hbt.semillero.dto;
 
 import java.io.Serializable;
 
-public class RolDTO implements Serializable{
-	/*
-	 * @descripcion Esta clase se hace para hacer el mapeo con los campos de la 
-	 * tabla Rol en la base de datos 
-	 */
-	
-	private static final long serialVersionUID = 1L;
-	
-	private long id;
-	private long idpersonaje;
-	private String nombre;
-	private String estado;
-	
-	public RolDTO() {}
+import org.apache.log4j.Logger;
 
-	public long getId() {
+import com.hbt.semillero.ejb.GestionarComicBean;
+import com.hbt.semillero.entidad.EstadoEnum;
+
+
+
+/**
+ * <b>Descripción:<b> Clase que determina el dto a usar para modificar,
+ * consultar y posteriormente eliminar un Rol
+ * 
+ * @author drageloz
+ */
+public class RolDTO implements Serializable{
+	
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
+	private static final long serialVersionUID = 1L;
+	private Long id;
+	private String nombre;
+	private Long idPersonaje;
+	private EstadoEnum estado;
+	
+	
+	/**
+	 * Metodo encargado de retornar el valor del atributo id
+	 * 
+	 * @return El id asociado a la clase
+	 */
+	public Long getId() {
 		return id;
 	}
-
-	public void setId(long id) {
+	/**
+	 * Metodo encargado de modificar el valor del atributo id
+	 * 
+	 * @param id El nuevo id a modificar.
+	 */
+	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public long getIdpersonaje() {
-		return idpersonaje;
-	}
-
-	public void setIdpersonaje(long idpersonaje) {
-		this.idpersonaje = idpersonaje;
-	}
-
+	
+	/**
+	 * Metodo encargado de retornar el valor del atributo nombre
+	 * 
+	 * @return El nombre asociado a la clase
+	 */
 	public String getNombre() {
 		return nombre;
 	}
-
+	/**
+	 * Metodo encargado de modificar el valor del atributo nombre
+	 * 
+	 * @param nombre El nuevo nombre a modificar.
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	
 	
 	/**
-	 * Método encargado de convertir los datos recibidos en JSON al tipo RolDTO.
-	*/
+	 * Metodo encargado de retornar el valor del atributo idPersonaje
+	 * 
+	 * @return El idPersonaje asociado a la clase
+	 */
+	public Long getIdPersonaje() {
+		return idPersonaje;
+	}
+	
+	/**
+	 * Metodo encargado de modificar el valor del atributo idPersonaje
+	 * 
+	 * @param idPersonaje El nuevo idPersonaje a modificar.
+	 */
+	public void setIdPersonaje(Long idPersonaje) {
+		this.idPersonaje = idPersonaje;
+	}
+	
+	/**
+	 * Metodo encargado de retornar el valor del atributo estado
+	 * 
+	 * @return El estado asociado a la clase
+	 */
+	public EstadoEnum getEstado() {
+		return estado;
+	}
+	/**
+	 * Metodo encargado de modificar el valor del atributo estado
+	 * 
+	 * @param estado El nuevo estado a modificar.
+	 */
+	public void setEstado(EstadoEnum estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * Método encargado de convertir los datos recibidos en JSON al tipo ComicDTO.
+	 * <b>Caso de Uso:</b>
+	 * 
+	 * @param arg Cadena que representa el objeto complejo JSON.
+	 * @return Instancia con los datos recibidos.
+	 */
 	public static RolDTO valueOf(String arg) {
 		return JsonUtils.valueOf(arg, RolDTO.class);
 	}
-
-	/**
-	 * Método encargado de convertir los datos recibidos en RolDTO al JSON
-	 * esperado
-	 */
 	
+	
+	/**
+	 * Método encargado de convertir los datos recibidos en ComicDTO al JSON
+	 * esperado
+	 * 
+	 * @param dto DTO
+	 * 
+	 * @return Json
+	 */
 	@Override
 	public String toString() {
 		return JsonUtils.toStringJson(this);
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (idpersonaje ^ (idpersonaje >>> 32));
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RolDTO other = (RolDTO) obj;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (id != other.id)
-			return false;
-		if (idpersonaje != other.idpersonaje)
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		return true;
-	}
-	
-	
 	
 }

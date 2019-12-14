@@ -19,116 +19,114 @@ import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.Personaje;
 import com.hbt.semillero.entidad.Rol;
 
-/**
- * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
- * los roles
- */
-
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class GestionarRolBean implements IGestionarRolLocal {
-
-	/*
-	 * @linea agregada desde la pagina url suministrada con el instructor para
-	 * generar log
-	 */
+public class GestionarRolBean implements IGestionarRolLocal{
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#crearRol(com.hbt.semillero.dto.RolDTO)
+	 */
+	@Override
+	public void crearRol(RolDTO rolDTO){
+		Rol rol = convertirDTOEntidad(rolDTO);
+		entityManager.persist(rol);
+		
+	}
 
 	/**
-	 * Atributo em que se usa para interacturar con el contexto de persistencia.
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#modificarRol(com.hbt.semillero.dto.RolDTO)
 	 */
-	@PersistenceContext
-	private EntityManager em;
+	@Override
+	public void modificarRol(Long id, String nombre,RolDTO rolDTO) {
+		logger.debug("Aqui inicia el metodo ModificarRol");
 
-	/* Metodo que Registra un Rol */
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void crearRol(RolDTO rolNuevo) {
-		logger.debug("se Inicio el metodo  crearRol");
-		// Entidad nueva
-		Rol rol = convertirRolDTOToRol(rolNuevo);
-		// Se almacena la informacion y se maneja la enidad Rol
-		em.persist(rol);
-		logger.debug("se Finalizo el metodo  crearRol ");
+		logger.debug("Aqui finaliza el metodo ModificarRol");
 	}
-
-	/* Metodo para modificar un ROl */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void modificarRol(Long id, String nombre, RolDTO rolNuevo) {
-		logger.debug("se Inicio el metodo  modificarRol ");
-		Rol rolModificar;
-		if (rolNuevo == null) {
-			// Entidad a modificar
-			rolModificar = em.find(Rol.class, id);
-		} else {
-			rolModificar = convertirRolDTOToRol(rolNuevo);
-		}
-		rolModificar.setNombre(nombre);
-		em.merge(rolModificar);
-		logger.debug("se Finalizo el metodo  modificarRol ");
-
-	}
-
-	/* Metodo para eliminar un ROl */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#eliminarRol(com.hbt.semillero.dto.RolDTO)
+	 */
+	@Override
 	public void eliminarRol(Long idRol) {
-		logger.debug("se Inicio el metodo  eliminarRol ");
-		Rol rolEliminar = em.find(Rol.class, idRol);
-		if (rolEliminar != null) {
-			em.remove(rolEliminar);
-		}
-		logger.debug("se Finalizo el metodo  eliminarRol ");
+		logger.debug("Aqui inicia el metodo EliminarRol");
+
+		logger.debug("Aqui finaliza el metodo EliminarRol");
 	}
 
-	/* METODO DE RETORNA UN SOLO ROL DEPENDIENDO SU ID */
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#consultarRol(com.hbt.semillero.dto.RolDTO)
+	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<RolDTO> consultarRol(long idRol /* String idRol */) {
-		logger.debug("se Inicio el metodo  consultarROL");
+	public  List<RolDTO> consultarRol() {
+		logger.debug("Aqui inicia el metodo ConsultarRol");
 
-		/*
-		 * Rol rol = null; rol = new Rol(); rol = em.find(Rol.class,
-		 * Long.parseLong(idRol)); RolDTO rolDTO = convertirRolToRolDTO(rol);
-		 * logger.debug("se Finalizo el metodo consultarROL ");
-		 */
-		List<RolDTO> resultadosRolDTO = new ArrayList<RolDTO>();
-		List<Rol> resultados = em.createQuery("select r from Rol r where r.id=: idRol").setParameter("idRol", idRol)
-				.getResultList();
+		String query = "SELECT rol FROM Rol rol";
+		List<Rol> resultados = entityManager.createQuery(query).getResultList();
+		List<RolDTO> resultadosRolDTO = new ArrayList<>();
 		for (Rol rol : resultados) {
-			resultadosRolDTO.add(convertirRolToRolDTO(rol));
+			resultadosRolDTO.add(convertirEntidadDTO(rol));
 		}
-		logger.debug("se finalizo el metodo  consultarROL");
+		logger.debug("Aqui finaliza el metodo ConsultarRol");
+
 		return resultadosRolDTO;
 	}
 
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#consultarRoles(com.hbt.semillero.dto.RolDTO)
+	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<RolDTO> consultarRol() {
-		logger.debug("se Inicio el metodo consultarRol ");
+	public List<RolDTO>  consultarRoles(Long idPersonaje) {
+		logger.debug("Aqui inicia el metodo ConsultarRoles");
+
+		String query = "SELECT rol FROM Rol rol WHERE rol.personaje.id = :idPersonaje ";
+		List<Rol> resultados = entityManager.createQuery(query).setParameter("idPersonaje", idPersonaje).getResultList();
 		List<RolDTO> resultadosRolDTO = new ArrayList<RolDTO>();
-		List<Rol> resultados = em.createQuery("select r from Rol r").getResultList();
 		for (Rol rol : resultados) {
-			resultadosRolDTO.add(convertirRolToRolDTO(rol));
+			resultadosRolDTO.add(convertirEntidadDTO(rol));
 		}
-		logger.debug("se Finalizo el metodo consultarRol ");
+		logger.debug("Aqui finaliza el metodo ConsultarRoles");
 		return resultadosRolDTO;
 	}
-
-	private Rol convertirRolDTOToRol(RolDTO rolDTO) {
+	
+	/**
+	 * Metodo encargado de transformar un rolDTO a un rol
+	 * 
+	 * @param rolDTO
+	 * @return
+	 */
+	public Rol convertirDTOEntidad(RolDTO rolDTO) {
 		Rol rol = new Rol();
 		rol.setId(rolDTO.getId());
-		rol.setIdpersonaje(rolDTO.getIdpersonaje());
 		rol.setNombre(rolDTO.getNombre());
+		rol.setPersonaje(new Personaje());
+		rol.getPersonaje().setId(rolDTO.getIdPersonaje());
 		rol.setEstado(rolDTO.getEstado());
 		return rol;
 	}
-
-	private RolDTO convertirRolToRolDTO(Rol rol) {
-
+	
+	/**
+	 * Metodo encargado de transformar un rol a un rolDTO
+	 * 
+	 * @param rol
+	 * @return
+	 */
+	private RolDTO convertirEntidadDTO(Rol rol) {
 		RolDTO rolDTO = new RolDTO();
-		rolDTO.setId(rol.getId());
-		rolDTO.setIdpersonaje(rol.getIdpersonaje());
-		rolDTO.setNombre(rol.getNombre());
+		rolDTO.setIdPersonaje(rol.getPersonaje().getId());
 		rolDTO.setEstado(rol.getEstado());
-
+		rolDTO.setNombre(rol.getNombre());
+		rolDTO.setId(rol.getId());
 		return rolDTO;
 	}
+
 
 }

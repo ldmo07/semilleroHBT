@@ -38,6 +38,14 @@ export class GestionarComicComponent implements OnInit {
      */
     public submitted : boolean;
 
+/*
+    Variable de tipo comic que captura la informacion de el comic a elimia
+*/
+    public datoEliminado: ComicDTO;
+
+    /* Variable que ocultara el mensaje de que se elimino un comic*/
+    public mostrarMensaje:Boolean ;
+
     /**
      * @description Este es el constructor del componente GestionarComicComponent
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
@@ -117,9 +125,34 @@ export class GestionarComicComponent implements OnInit {
 
     }
 
-    public editarComic(comic : any) : void {
-        this.router.navigate(['bienvenida',comic]);
-    }
+    public editarComic(posicion : number) : void {
+        let comic = this.listaComics[posicion];
+        this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
+        this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
+        this.gestionarComicForm.controls.tematica.setValue(comic.tematica);
+        this.gestionarComicForm.controls.coleccion.setValue(comic.coleccion);
+        this.gestionarComicForm.controls.numeroPaginas.setValue(comic.numeroPaginas);
+        this.gestionarComicForm.controls.precio.setValue(comic.precio);
+        this.gestionarComicForm.controls.autores.setValue(comic.autores);
+        this.gestionarComicForm.controls.color.setValue(comic.color);
+        this.gestionarComicForm.controls.nombre;
+        this.gestionarComicForm.controls.editorial;
+        this.gestionarComicForm.controls.tematica;
+        this.gestionarComicForm.controls.coleccion;
+        this.gestionarComicForm.controls.numeroPaginas;
+        this.gestionarComicForm.controls.precio;
+        this.gestionarComicForm.controls.autores;
+        this.gestionarComicForm.controls.color;
+        //this.listaComics.splice(posicion, 1);
+        //this.listaComics[posicion]=comic;
+      }
+
+      private eliminarComic(idEliminar:number){
+        this.datoEliminado = this.listaComics[idEliminar];
+        this.listaComics.splice(idEliminar, 1);
+       // this.listaString.splice(idEliminar, 1);
+        console.log(this.listaComics, this.listaComics[1]);
+      }
 
     private limpiarFormulario() : void {
         this.submitted = false;

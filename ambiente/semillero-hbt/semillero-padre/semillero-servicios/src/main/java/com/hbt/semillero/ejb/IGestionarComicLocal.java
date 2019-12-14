@@ -8,6 +8,7 @@ import javax.ejb.Local;
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.TematicaEnum;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * Expone los métodos del EJB GestionarComic Las interfaces determinan una
@@ -49,7 +50,7 @@ public interface IGestionarComicLocal {
 	 * 
 	 * @param comicEliminar informacion a eliminar
 	 */
-	public void eliminarComic(Long idComic);
+	public void eliminarComic(Long idComic)throws ComicException;
 
 	/**
 	 * 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ComicDTO } from '../../dto/comic.dto';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-crud-comic',
@@ -12,15 +12,15 @@ export class CrudComicComponent implements OnInit {
 
   public crudComicForm : FormGroup;
 
-  public mostrarMensaje:Boolean ;
-  public comic: ComicDTO;
+  //public mostrarMensaje:Boolean ;
+  //public comic: ComicDTO;
   public listaComics : Array<ComicDTO>;
   public idComic : number = 0;
   public submitted : boolean;
   public datoEliminado: ComicDTO;
 
   constructor(private fb : FormBuilder,
-    private router : Router) {
+    private router : Router,private comicRecibido:ActivatedRoute) {
     this.crudComicForm = this.fb.group({
         nombre : [null, Validators.required],
         editorial : [null],
@@ -35,13 +35,15 @@ export class CrudComicComponent implements OnInit {
 
   ngOnInit() {
     console.log("Ingreso al al evento oninit");
-        this.comic = new ComicDTO();
+       /* this.comic = new ComicDTO();
         this.listaComics = new Array<ComicDTO>();
-        this.mostrarMensaje=false;
+        this.mostrarMensaje=false;*/
+        let comic=this.comicRecibido.snapshot.params;
+        this.consultarComic(comic);
         
   }
   
-  public crearActualizarComic() : void {
+  /*public crearActualizarComic() : void {
     this.submitted = true;
     if(this.crudComicForm.invalid) {
         return;
@@ -60,14 +62,14 @@ export class CrudComicComponent implements OnInit {
     this.listaComics.push(this.comic);
     this.limpiarFormulario();
     
-}
+}*/
 
 /**
  * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
  * @param posicion en la lista del comic seleccionado
  */
-public consultarComic(posicion : number) : void {
-    let comic = this.listaComics[posicion];
+public consultarComic(comic : any) : void {
+   // let comic = this.listaComics[posicion];
     this.crudComicForm.controls.nombre.setValue(comic.nombre);
     this.crudComicForm.controls.editorial.setValue(comic.editorial);
     this.crudComicForm.controls.tematica.setValue(comic.tematica);
@@ -88,7 +90,7 @@ public consultarComic(posicion : number) : void {
 
 }
 
-public editarComic(posicion : number) : void {
+/*public editarComic(posicion : number) : void {
   let comic = this.listaComics[posicion];
   this.crudComicForm.controls.nombre.setValue(comic.nombre);
   this.crudComicForm.controls.editorial.setValue(comic.editorial);
@@ -108,9 +110,9 @@ public editarComic(posicion : number) : void {
   this.crudComicForm.controls.color;
   //this.listaComics.splice(posicion, 1);
   //this.listaComics[posicion]=comic;
-}
+}*/
 
-private limpiarFormulario() : void {
+/*private limpiarFormulario() : void {
     this.submitted = false;
     this.crudComicForm.controls.nombre.setValue(null);
     this.crudComicForm.controls.editorial.setValue(null);
@@ -120,14 +122,14 @@ private limpiarFormulario() : void {
     this.crudComicForm.controls.precio.setValue(null);
     this.crudComicForm.controls.autores.setValue(null);
     this.crudComicForm.controls.color.setValue(null);
-}
+}*/
 
-private eliminarComic(idEliminar:number){
+/*private eliminarComic(idEliminar:number){
   this.datoEliminado = this.listaComics[idEliminar];
   this.listaComics.splice(idEliminar, 1);
  // this.listaString.splice(idEliminar, 1);
   console.log(this.listaComics, this.listaComics[1]);
-}
+}*/
 
 /**
  * @description Metodo que obtiene los controles y sus propiedades

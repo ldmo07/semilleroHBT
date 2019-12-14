@@ -11,16 +11,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
-import com.hbt.semillero.dto.RolDTO;
+import com.hbt.semillero.ejb.IGestionarComicLocal;
 import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
-import com.hbt.semillero.ejb.IGestionarRolLocal;
 
-@Path("/GestionarRol")
-public class GestionarRolRest {
+@Path("/GestionarPersonaje")
+public class GestionarPersonajeRest {
 	
 	@EJB
-	private IGestionarRolLocal gestionarRolEJB;
+	private IGestionarPersonajeLocal gestionarPersonajeEJB;
 	
 	@GET
 	@Path("/saludo")
@@ -30,26 +30,26 @@ public class GestionarRolRest {
 	}
 	
 	@GET
-	@Path("/consultarRol")
+	@Path("/consultarPersonaje")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  List<RolDTO> consultarRol(){
-		return gestionarRolEJB.consultarRol();
+	public  List<PersonajeDTO> consultarPersonaje(){
+		return gestionarPersonajeEJB.consultarPersonaje();
 		
 	};
 	
 	@GET
-	@Path("/consultarRolById")
+	@Path("/consultarPersonajeById")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RolDTO>  consultarRoles(@QueryParam("idPersonaje") Long idPersonaje){
-		return gestionarRolEJB.consultarRoles(idPersonaje);
+	public List<PersonajeDTO>  consultarPersonajes(@QueryParam("idComic") Long idComic){
+		return gestionarPersonajeEJB.consultarPersonajes(idComic);
 		
 	};
 	
 	@POST
-	@Path("/crearRol")
+	@Path("/crearPersonaje")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void crearRol(RolDTO rolDTO) {
-		gestionarRolEJB.crearRol(rolDTO);	
+	public void crearPersonaje(PersonajeDTO personajeDTO) {
+		gestionarPersonajeEJB.crearPersonaje(personajeDTO);	
 	}
 
 }

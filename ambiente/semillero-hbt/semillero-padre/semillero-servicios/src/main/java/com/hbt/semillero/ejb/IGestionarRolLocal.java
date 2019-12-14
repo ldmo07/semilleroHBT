@@ -4,49 +4,51 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.RolDTO;
 
+
 /**
- * Expone los métodos del EJB GestionarComic Las interfaces determinan una
+ * Expone los métodos del EJB GestionarRol Las interfaces determinan una
  * especie de contrato donde se define las firmas de los metodos, define que se
  * necesita implementar pero no el como eso lo realiza la clase que la
  * implementa Palabras claves interface e implements
  * 
- * @author Luis David Mercado Ortega
+ * @author drageloz
  *
  */
 @Local
 public interface IGestionarRolLocal {
-
+	
 	/**
 	 * 
-	 * Metodo encargado de crear un ROL y persistirlo
+	 * Metodo encargado de crear un rol y persistirlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param ROLNuevo informacion nueva a crear
+	 * @param rolDTO informacion nueva a crear
 	 */
-	public void crearRol(RolDTO rolNuevo);
+	public void crearRol(RolDTO rolDTO);
 
+	
 	/**
 	 * 
-	 * Metodo encargado de consultar un ROL modificarlo y guardarlo
+	 * Metodo encargado de consultar un rol, modificarlo y guardarlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param ROL informacion nueva a modificar
+	 * @param id, nombre, rolDTO informacion nueva a modificar
 	 */
-	public void modificarRol(Long id, String nombre, RolDTO rolNuevo);
+	public void modificarRol(Long id, String nombre,RolDTO rolDTO);
 
+	
 	/**
 	 * 
-	 * Metodo encargado de eliminar un ROL modificarlo y guardarlo
+	 * Metodo encargado de eliminar un rol, modificarlo y guardarlo
 	 * 
-	 * @author Luis David Mercado Ortega
+	 * @author drageloz
 	 * 
-	 * @param eliminarROl informacion a eliminar
+	 * @param idRol informacion del id del rol a eliminar
 	 */
 	public void eliminarRol(Long idRol);
 
@@ -54,17 +56,16 @@ public interface IGestionarRolLocal {
 	 * 
 	 * Metodo encargado de retornar la informacion de un rol
 	 * 
-	 * @param idRol identificador del Rol a ser consultado
-	 * @return Rol Resultado de la consulta
-	 * @throws Exception si no se recibe idPersonaje
+	 * @return List<RolDTO> Resultado de la consulta
 	 */
-	public List<RolDTO> consultarRol(long idRol);
-
+	public  List<RolDTO> consultarRol();
+	
 	/**
 	 * 
-	 * Metodo encargado de retornar una lista de Roles
-	 * 
-	 * @return
+	 * Metodo encargado de retornar una lista de roles 
+	 * @param idPersonaje El id del personaje a consultar
+	 * @return List<RolDTO> Resultado de la consulta
 	 */
-	public List<RolDTO> consultarRol();
+	public List<RolDTO>  consultarRoles(Long idPersonaje);
+	
 }

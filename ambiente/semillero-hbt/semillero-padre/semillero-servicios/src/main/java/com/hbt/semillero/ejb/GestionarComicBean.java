@@ -3,7 +3,6 @@
  */
 package com.hbt.semillero.ejb;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.TematicaEnum;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -31,13 +31,7 @@ import com.hbt.semillero.entidad.TematicaEnum;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class GestionarComicBean implements IGestionarComicLocal {
-	
-	/*
-	 * @linea agregada desde la pagina url suministrada con el instructor
-	 * */
-	
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
-
 	/**
 	 * Atributo em que se usa para interacturar con el contexto de persistencia.
 	 */
@@ -75,14 +69,21 @@ public class GestionarComicBean implements IGestionarComicLocal {
 
 	/**
 	 * 
+	 * @throws ComicException 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void eliminarComic(Long idComic) {
-		Comic comicEliminar = em.find(Comic.class, idComic);
-		if (comicEliminar != null) {
-			em.remove(comicEliminar);
+	public void eliminarComic(Long idComic) throws ComicException {
+		try {
+			Comic comicEliminar = em.find(Comic.class, idComic);
+			if (comicEliminar != null) {
+				em.remove(comicEliminar);
+			}
+		} catch (Exception e) {
+			logger.error("Error al eliminar comic"+e);
+			throw new ComicException("CD-00f","error ejecutando eliminacion del comic", e);
 		}
+		
 	}
 
 	/**
@@ -104,21 +105,12 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComics() {
-		logger.debug("se ejecuta el comando ");
-		
+		logger.debug("se ejecuta el método consultar comics");
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
 		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
 		for (Comic comic:resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
 		}
-		
-		/***************Se Invoca el metodo para pasarle los parametros**************************/
-		Comic co=new Comic();
-		co.setPrecio(new BigDecimal(200));
-		TematicaEnum tema=TematicaEnum.AVENTURAS;
-		   CalcularTotal(tema, co);
-		/*****************************************/
-		
 		return resultadosComicDTO;
 	}
 
@@ -174,43 +166,9 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		return comic;
 	}
 
-	/*@descripcion Implementacion del metodo que calcula el iva y el total a pagar de un comic segun su
-	 * tematica y su precio */
 	@Override
 	public void CalcularTotal(TematicaEnum tema, Comic co) {
-		//double total,iva;		
-		if(tema==TematicaEnum.AVENTURAS) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total Aventuras "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}else if(tema==TematicaEnum.BELICO) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total belico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}else if(tema==TematicaEnum.CIENCIA_FICCION) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total ficcion "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}else if(tema==TematicaEnum.DEPORTIVO) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.1);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total deportivo "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}else if(tema==TematicaEnum.FANTASTICO) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total fantastico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}if(tema==TematicaEnum.HISTORICO) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.05);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total historico "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}else if(tema==TematicaEnum.HORROR) {
-			co.setTotalIva(co.getPrecio().doubleValue()*0.16);
-			co.setTotalPago(co.getPrecio().doubleValue()+co.getTotalIva());
-			logger.debug("Total Horror "+co.getTotalPago()+" y el iva es de "+co.getTotalIva());
-		}
+		// TODO Auto-generated method stub
 		
 	}
-
-	/*@descripcion implementacion del metodo para calcular el total a apagar de un comic*/
-
 }

@@ -14,9 +14,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
+import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
@@ -28,6 +32,7 @@ import com.hbt.semillero.ejb.IGestionarComicLocal;
 @Path("/GestionarComic")
 public class GestionarComicRest {
 
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 	/**
 	 * Atriburo que permite gestionar un comic
 	 */
@@ -125,9 +130,13 @@ public class GestionarComicRest {
 	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void eliminarComic(@QueryParam("idComic") Long idComic) {
-		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
-
+		try {
+			if (idComic != null) {
+				 gestionarComicEJB.eliminarComic(idComic);
+			}
+		} catch (ComicException e) {
+			logger.error("excepcion elimanar capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
 		}
+		
 	}
 }

@@ -1,4 +1,6 @@
-
+/**
+ * Comic.java
+ */
 package com.hbt.semillero.entidad;
 
 import java.io.Serializable;
@@ -19,164 +21,132 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
+ * <b>DescripciÃ³n:<b> Clase que determina la entidad que permite representar la
+ * tabla "DB_SEMILLERO"."COMIC"
  * 
- * @author Luis Mercado@@@@@@@
+ * @author drageloz
  * @version
  */
 @Entity
 @Table(name = "PERSONAJE")
 public class Personaje implements Serializable {
 
-
+	/**
+	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
+	 * determina serialVersionUID es el id Ãºnico que identifica una clase cuando lo
+	 * serializamos. ;ediante este id podemos identificar el objeto convertido en un
+	 * array de bytes.
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEC_PERSONAJE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONAJE_ID_GENERATOR")
 	@Column(name = "PERS_ID")
-	private long id;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "PERS_ID_COMIC")
-	private long idcomic;
+	private Long id;
 	
 	@Column(name = "PERS_NOMBRE")
 	private String nombre;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PERS_ID_COMIC")
+	private Comic comic;
+	
 	@Column(name = "PERS_ESTADO")
 	@Enumerated(value = EnumType.STRING)
-	private String estado;
+	private EstadoEnum estado;
 	
 	@Column(name = "PERS_SUPERPODER")
-	private String superpoder;
-	/**
-	 * Constructor de la clase.
-	 */
-	public Personaje() {
-
-	}
+	private String superPoder;
 	
 	
-	public long getIdcomic() {
-		return idcomic;
-	}
-
-
-
-	public void setIdcomic(long idcomic) {
-		this.idcomic = idcomic;
-	}
-
-
-	
-	public String getEstado() {
-		return estado;
-	}
-
-
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getSuperpoder() {
-		return superpoder;
-	}
-
-
-
-	public void setSuperpoder(String superpoder) {
-		this.superpoder = superpoder;
-	}
-
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-
-
-	
-	
-	public String getNombre() {
-		return nombre;
-	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-
 	/**
 	 * Metodo encargado de retornar el valor del atributo id
 	 * 
 	 * @return El id asociado a la clase
 	 */
-	
 	public Long getId() {
 		return id;
 	}
-
-	
-	@Override
-	public String toString() {
-		return "Personaje [id=" + id + ", idcomic=" + idcomic + ", nombre=" + nombre + ", estado=" + estado
-				+ ", superpoder=" + superpoder + "]";
+	/**
+	 * Metodo encargado de modificar el valor del atributo id
+	 * 
+	 * @param id El nuevo id a modificar.
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (idcomic ^ (idcomic >>> 32));
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((superpoder == null) ? 0 : superpoder.hashCode());
-		return result;
+	/**
+	 * Metodo encargado de retornar el valor del atributo nombre
+	 * 
+	 * @return El nombre asociado a la clase
+	 */
+	public String getNombre() {
+		return nombre;
 	}
 
+	/**
+	 * Metodo encargado de modificar el valor del atributo nombre
+	 * 
+	 * @param nombre El nuevo nombre a modificar.
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Personaje other = (Personaje) obj;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (id != other.id)
-			return false;
-		if (idcomic != other.idcomic)
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (superpoder == null) {
-			if (other.superpoder != null)
-				return false;
-		} else if (!superpoder.equals(other.superpoder))
-			return false;
-		return true;
-	}	
+	/**
+	 * Metodo encargado de retornar el valor del atributo comic
+	 * 
+	 * @return El comic asociado a la clase
+	 */
+	public Comic getComic() {
+		return comic;
+	}
 	
+	/**
+	 * Metodo encargado de modificar el valor del atributo comic
+	 * 
+	 * @param comic El nuevo comic a modificar.
+	 */
+	public void setComic(Comic comic) {
+		this.comic = comic;
+	}
 	
-	
-	
+	/**
+	 * Metodo encargado de retornar el valor del atributo estado
+	 * 
+	 * @return El estado asociado a la clase
+	 */
+	public EstadoEnum getEstado() {
+		return estado;
+	}
+
+	/**
+	 * Metodo encargado de modificar el valor del atributo estado
+	 * 
+	 * @param estado El nuevo estado a modificar.
+	 */
+	public void setEstado(EstadoEnum estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * Metodo encargado de retornar el valor del atributo superPoder
+	 * 
+	 * @return El superPoder asociado a la clase
+	 */
+	public String getSuperPoder() {
+		return superPoder;
+	}
+
+	/**
+	 * Metodo encargado de modificar el valor del atributo superPoder
+	 * 
+	 * @param superPoder El nuevo superPoder a modificar.
+	 */
+	public void setSuperPoder(String superPoder) {
+		this.superPoder = superPoder;
+	}
+
 }
