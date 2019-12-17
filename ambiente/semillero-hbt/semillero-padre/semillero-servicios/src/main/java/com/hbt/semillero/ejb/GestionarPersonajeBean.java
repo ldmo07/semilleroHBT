@@ -23,11 +23,17 @@ import com.hbt.semillero.exceptions.PersonajeException;
 import com.hbt.semillero.exceptions.RolException;
 import com.hbt.semillero.entidad.Personaje;
 
+/*
+ * @autor Luis David Mercado Ortega
+ */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class GestionarPersonajeBean implements IGestionarPersonajeLocal{
+	
+	//atributo que permite hacer logger con la libreria log4j
 	final static Logger logger = Logger.getLogger(GestionarPersonajeBean.class);
 	
+	//atributo que permite ejecutar las consultas jpa
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -37,27 +43,40 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal{
 	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#crearPersonaje(com.hbt.semillero.dto.PersonajeDTO)
 	 */
 	@Override
-	public void crearPersonaje(PersonajeDTO personajeDTO) throws PersonajeException{
+	public PersonajeDTO crearPersonaje(PersonajeDTO personajeDTO) throws PersonajeException{
 		try {
 			Personaje personaje = convertirDTOEntidad(personajeDTO);
 			entityManager.persist(personaje);
+			return convertirEntidadDTO(personaje);
 		} catch (Exception e) {
 			logger.error("Error al crear Personaje"+e);
 			throw new PersonajeException("CD-00f","error creando los personajes", e);
 		}
-		
-		
 	}
 
 	/**
 	 * 
+	 * @throws PersonajeException 
 	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#modificarPersonaje(com.hbt.semillero.dto.PersonajeDTO)
 	 */
 	@Override
-	public void modificarPersonaje(Long id, String nombre,PersonajeDTO personajeDTO) {
-		logger.debug("Aqui inicia el metodo ModificarPersonaje");
-
-		logger.debug("Aqui finaliza el metodo ModificarPersonaje");
+	public void modificarPersonaje(Long id, String nombre,PersonajeDTO personajeDTO) throws PersonajeException {
+		try {
+			logger.error("inicio el metodo modificar Personaje");
+			Personaje personajeModificar ;
+			if(personajeDTO==null) {
+				// Entidad a modificar
+				personajeModificar = entityManager.find(Personaje.class, id);
+			}else {
+				personajeModificar = convertirDTOEntidad(personajeDTO);
+			}
+			personajeModificar.setNombre(nombre);
+			entityManager.merge(personajeModificar);
+			logger.error("finalizo el metodo modificar comic");
+		} catch (Exception e) {
+			logger.error("Error al editar comic"+e);
+			throw new PersonajeException("CD-00f","error ejecutando eliminacion del comic", e);
+		}
 	}
 
 	/**
@@ -178,10 +197,25 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal{
 			logger.debug("Aqui finaliza el metodo convertirEntidadDTO");
 			return personajeDTO;
 		} catch (Exception e) {
-			logger.error("Error al eliminar comic"+e);
+			logger.error("Error al convertir entidad a DTO comic"+e);
 			throw new PersonajeException("CD-00f","error convirtiendo entiad a DTo del Personaje", e);
 		}
 		
+	}
+
+	@Override
+	public PersonajeDTO modificar(PersonajeDTO personajeDTO)throws PersonajeException {
+		if(personajeDTO.getId()==null) {
+			throw new PersonajeException("CD-00f","error identificador requerido");
+		}
+		
+		Query query=(Query) entityManager.createQuery("UPDATE Personaje personaje set personaje.estado=: estado , "
+				+ "personaje.comic.id =: idComic where personaje.id=:idPersonaje");
+		((javax.persistence.Query) query).setParameter("estado",personajeDTO.getEstado());
+		((javax.persistence.Query) query).setParameter("idComic",personajeDTO.getIdComic());
+		((javax.persistence.Query) query).setParameter("idPersonaje",personajeDTO.getId());
+		((javax.persistence.Query) query).executeUpdate();
+		return convertirEntidadDTO(entityManager.find(Personaje.class, personajeDTO.getId()));
 	}
 
 

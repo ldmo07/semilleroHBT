@@ -13,7 +13,7 @@ import com.hbt.semillero.entidad.EstadoEnum;
  * <b>Descripción:<b> Clase que determina el dto a usar para modificar,
  * consultar y posteriormente eliminar un Rol
  * 
- * @author drageloz
+ * @author Luis David Mercado Ortega
  */
 public class RolDTO implements Serializable{
 	

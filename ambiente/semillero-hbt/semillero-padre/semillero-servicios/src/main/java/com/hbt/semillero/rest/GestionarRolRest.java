@@ -10,10 +10,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.dto.RolDTO;
 import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
@@ -67,12 +69,15 @@ public class GestionarRolRest {
 	@POST
 	@Path("/crearRol")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void crearRol(RolDTO rolDTO) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response crearRol(RolDTO rolDTO) {
 		try {
 			gestionarRolEJB.crearRol(rolDTO);	
+			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "ROL creado exitosamente");
+			return Response.status(Response.Status.CREATED).entity(resultadoDTO).build();
 		} catch (RolException e) {
 			logger.error("excepcion Crear capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
-			
+			return Response.status(Response.Status.CREATED).entity("error al Crear el ROL" +e).build();
 		}
 		
 	}

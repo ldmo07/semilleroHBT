@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.ConsultaTotalPersonajesComicDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.TematicaEnum;
 import com.hbt.semillero.exceptions.ComicException;
@@ -29,8 +30,9 @@ public interface IGestionarComicLocal {
 	 * @author ccastano
 	 * 
 	 * @param comicNuevo informacion nueva a crear
+	 * @throws ComicException 
 	 */
-	public void crearComic(ComicDTO comicNuevo);
+	public void crearComic(ComicDTO comicNuevo) throws ComicException;
 
 	/**
 	 * 
@@ -39,8 +41,9 @@ public interface IGestionarComicLocal {
 	 * @author ccastano
 	 * 
 	 * @param comicModificar informacion nueva a modificar
+	 * @throws ComicException 
 	 */
-	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo);
+	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) throws ComicException;
 
 	/**
 	 * 
@@ -58,19 +61,24 @@ public interface IGestionarComicLocal {
 	 * 
 	 * @param idComic identificador del comic a ser consultado
 	 * @return comic Resultado de la consulta
+	 * @throws ComicException 
 	 * @throws Exception si no se recibe idComic
 	 */
-	public ComicDTO consultarComic(String idComic);
+	public ComicDTO consultarComic(String idComic) throws ComicException;
 
 	/**
 	 * 
 	 * Metodo encargado de retornar una lista de comics
 	 * 
 	 * @return
+	 * @throws ComicException 
 	 */
-	public List<ComicDTO> consultarComics();
+	public List<ComicDTO> consultarComics() throws ComicException;
 	
 	//Metoodo que recibe la tematica y un comic para calcular el total a pagar
 	public void CalcularTotal(TematicaEnum tema,Comic co);
+	
+	//Metoodo que retornara una lista de los Personajes pertenecientes a un comic
+	public List<ConsultaTotalPersonajesComicDTO> consultarTotalPersonajeComic() throws ComicException;
 	
 }

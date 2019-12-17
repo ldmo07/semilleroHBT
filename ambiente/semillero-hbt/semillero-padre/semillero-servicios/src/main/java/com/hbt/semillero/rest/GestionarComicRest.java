@@ -13,14 +13,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.ConsultaTotalPersonajesComicDTO;
+import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
 import com.hbt.semillero.exceptions.ComicException;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 /**
  * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
@@ -50,8 +54,9 @@ public class GestionarComicRest {
 	@GET
 	@Path("/saludo")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String primerRest() {
-		return "Prueba inicial servicios rest en el semillero java hbt";
+	public Response primerRest() {
+		String saludo="Prueba inicial servicios rest en el semillero java hbt";
+		return Response.status(Response.Status.OK).entity(saludo).type(MediaType.APPLICATION_JSON).build();
 	}
 
 	/**
@@ -66,7 +71,13 @@ public class GestionarComicRest {
 	@Path("/consultarComics")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ComicDTO> consultarComic() {
-		return gestionarComicEJB.consultarComics();
+		try {
+			return gestionarComicEJB.consultarComics();
+		} catch (ComicException e) {
+			logger.error("excepcion Crear Comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
+		}
+		
 
 	}
 
@@ -82,11 +93,17 @@ public class GestionarComicRest {
 	@Path("/consultarComic")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ComicDTO consultarComic(@QueryParam("idComic") Long idComic) {
-		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
-			return comicDTO;
+		try {
+			//if (idComic != null) {
+				/*ComicDTO comicDTO =*/return gestionarComicEJB.consultarComic(idComic.toString());
+				//return comicDTO;
+			//}
+		} catch (ComicException e) {
+			logger.error("excepcion Modificar comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
 		}
-		return null;
+		
+	
 	}
 
 	/**
@@ -99,10 +116,17 @@ public class GestionarComicRest {
 	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ResultadoDTO crearComic(ComicDTO comicDTO) {
-		gestionarComicEJB.crearComic(comicDTO);
-		ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
-		return resultadoDTO;
+	public Response crearComic(ComicDTO comicDTO) {
+		try {
+			gestionarComicEJB.crearComic(comicDTO);
+			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
+			return Response.status(Response.Status.CREATED).entity(resultadoDTO).build();
+		} catch (ComicException e) {
+			logger.error("excepcion Crear Comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return Response.status(Response.Status.BAD_REQUEST).entity("Se presento un erro al crear el comic "+e).build();
+		}
+		
+		
 		
 	}
 
@@ -117,7 +141,12 @@ public class GestionarComicRest {
 	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void modificarComic(@QueryParam("idComic") Long idComic, @QueryParam("nombre") String nombre) {
-		gestionarComicEJB.modificarComic(idComic, nombre, null);
+		try {
+			gestionarComicEJB.modificarComic(idComic, nombre, null);
+		}catch (ComicException e) {
+			logger.error("excepcion Modificar comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+		}
+		
 	}
 
 	/**
@@ -137,6 +166,21 @@ public class GestionarComicRest {
 		} catch (ComicException e) {
 			logger.error("excepcion elimanar capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
 		}
+		
+	}
+	
+	@GET
+	@Path("/consultarPersonajesPorComic")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response  consultarPersonajes(){
+		try {
+			List<ConsultaTotalPersonajesComicDTO> listaTotales= gestionarComicEJB.consultarTotalPersonajeComic();
+			return Response.status(Response.Status.OK).entity(listaTotales).build();
+			 
+		} catch (Exception e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(e).build();
+		}
+		
 		
 	}
 }

@@ -16,7 +16,7 @@ import com.hbt.semillero.entidad.EstadoEnum;
 /**
  * Indica el resultado de ejecución.
  * 
- * @author Johnny Soto
+ * @author Luis David Mercado Ortega
  *
  */
 public class PersonajeDTO implements Serializable {

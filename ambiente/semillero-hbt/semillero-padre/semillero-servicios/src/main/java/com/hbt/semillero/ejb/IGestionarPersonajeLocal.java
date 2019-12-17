@@ -29,7 +29,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @param personajeDTO informacion nueva a crear
 	 */
-	public void crearPersonaje(PersonajeDTO personajeDTO)throws PersonajeException;
+	public PersonajeDTO crearPersonaje(PersonajeDTO personajeDTO)throws PersonajeException;
 
 	
 	/**
@@ -68,5 +68,7 @@ public interface IGestionarPersonajeLocal {
 	 * @return List<PersonajeDTO> Resultado de la consulta
 	 */
 	public List<PersonajeDTO>  consultarPersonajes(Long idComic)throws PersonajeException;
+	
+	public PersonajeDTO modificar(PersonajeDTO personajeDTO)throws PersonajeException;
 	
 }

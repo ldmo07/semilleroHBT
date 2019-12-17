@@ -23,6 +23,10 @@ import com.hbt.semillero.exceptions.ComicException;
 import com.hbt.semillero.exceptions.PersonajeException;
 import com.hbt.semillero.exceptions.RolException;
 
+/*
+ * @Autor Luis david Mercado 
+ */
+
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class GestionarRolBean implements IGestionarRolLocal{
@@ -51,13 +55,27 @@ public class GestionarRolBean implements IGestionarRolLocal{
 
 	/**
 	 * 
+	 * @throws RolException 
 	 * @see com.hbt.semillero.ejb.IGestionarRolLocal#modificarRol(com.hbt.semillero.dto.RolDTO)
 	 */
 	@Override
-	public void modificarRol(Long id, String nombre,RolDTO rolDTO) {
-		logger.debug("Aqui inicia el metodo ModificarRol");
-
-		logger.debug("Aqui finaliza el metodo ModificarRol");
+	public void modificarRol(Long id, String nombre,RolDTO rolDTO) throws RolException {
+		try {
+			logger.error("inicio el metodo modificar Rol");
+			Rol rolModificar ;
+			if(rolDTO==null) {
+				// Entidad a modificar
+				rolModificar = entityManager.find(Rol.class, id);
+			}else {
+				rolModificar = convertirDTOEntidad(rolDTO);
+			}
+			rolModificar.setNombre(nombre);
+			entityManager.merge(rolModificar);
+			logger.error("finalizo el metodo modificar Rol");
+		} catch (Exception e) {
+			logger.error("Error al editar ROl"+e);
+			throw new RolException("CD-00f","error ejecutando Actualizacion del ROl", e);
+		}
 	}
 	
 	/**
