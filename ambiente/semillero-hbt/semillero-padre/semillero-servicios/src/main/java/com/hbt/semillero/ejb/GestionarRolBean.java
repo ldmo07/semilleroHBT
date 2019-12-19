@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.RolDTO;
 import com.hbt.semillero.entidad.Comic;
@@ -105,7 +106,7 @@ try {
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public  List<RolDTO> consultarRol() throws RolException {
-		try {
+		/*try {
 			logger.debug("Aqui inicia el metodo ConsultarRol");
 
 			String query = "SELECT rol FROM Rol rol";
@@ -120,6 +121,18 @@ try {
 		} catch (Exception e) {
 			logger.error("Error al consultar Rol"+e);
 			throw new RolException("CD-00f","error al listar Rol ", e);
+		}*/
+		try {
+			logger.debug("se ejecuta el método consultar comics");
+			List<RolDTO> resultadosComicDTO = new ArrayList<RolDTO>();
+			List<Rol> resultados = entityManager.createQuery("SELECT rol FROM Rol rol").getResultList();
+			for (Rol comic:resultados) {
+				resultadosComicDTO.add(convertirEntidadDTO(comic));
+			}
+			return resultadosComicDTO;
+		} catch (Exception e) {
+			logger.error("Error al consultar Rol @@@@@@@"+e);
+			throw new RolException("CD-00fxx32@@@","error ejecutando consulta del Rol enn GROLB", e);
 		}
 		
 	}

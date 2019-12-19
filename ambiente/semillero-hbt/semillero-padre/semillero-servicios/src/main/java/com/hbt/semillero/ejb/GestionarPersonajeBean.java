@@ -208,13 +208,15 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal{
 		if(personajeDTO.getId()==null) {
 			throw new PersonajeException("CD-00f","error identificador requerido");
 		}
+		javax.persistence.Query query=entityManager.createQuery("UPDATE Personaje personaje "
+				+ "SET personaje.estado = :estado, "
+				+ "personaje.comic.id = :idComic "
+				+ "WHERE personaje.id = :idPersonaje");	
 		
-		Query query=(Query) entityManager.createQuery("UPDATE Personaje personaje set personaje.estado=: estado , "
-				+ "personaje.comic.id =: idComic where personaje.id=:idPersonaje");
-		((javax.persistence.Query) query).setParameter("estado",personajeDTO.getEstado());
-		((javax.persistence.Query) query).setParameter("idComic",personajeDTO.getIdComic());
-		((javax.persistence.Query) query).setParameter("idPersonaje",personajeDTO.getId());
-		((javax.persistence.Query) query).executeUpdate();
+		query.setParameter("estado", personajeDTO.getEstado());
+		query.setParameter("idComic", personajeDTO.getIdComic());
+		query.setParameter("idPersonaje",personajeDTO.getId());
+		query.executeUpdate();
 		return convertirEntidadDTO(entityManager.find(Personaje.class, personajeDTO.getId()));
 	}
 

@@ -179,8 +179,25 @@ public class GestionarComicRest {
 			 
 		} catch (Exception e) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(e).build();
+		}	
+	}
+	
+	
+	//////////////////////////////////////////////////////////////
+	
+	@POST
+	@Path("/modificar2")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response modificarPersonaje(ComicDTO comicDTO) {
+		try {
+			gestionarComicEJB.modificar(comicDTO);	
+			return Response.status(Response.Status.OK).entity(comicDTO).build();
+		} catch (ComicException e) {
+			logger.error("excepcion crear personaje capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return Response.status(Response.Status.BAD_REQUEST).entity("Error Creando el Personaje "+e).build();
 		}
 		
-		
 	}
+	
 }

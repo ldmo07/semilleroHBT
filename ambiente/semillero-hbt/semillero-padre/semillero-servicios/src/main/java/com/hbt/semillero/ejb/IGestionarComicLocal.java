@@ -81,4 +81,8 @@ public interface IGestionarComicLocal {
 	//Metoodo que retornara una lista de los Personajes pertenecientes a un comic
 	public List<ConsultaTotalPersonajesComicDTO> consultarTotalPersonajeComic() throws ComicException;
 	
+	public ComicDTO modificar(ComicDTO comicDTO) throws ComicException;
+	
+
+	
 }

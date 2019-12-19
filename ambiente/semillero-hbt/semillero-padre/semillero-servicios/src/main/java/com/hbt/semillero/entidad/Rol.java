@@ -32,7 +32,7 @@ public class Rol implements Serializable {
 	private String nombre;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ROL_ID_PERS")
+	@JoinColumn(name = "ROL_ID_PERSONAJE")
 	private Personaje personaje;
 	
 	@Column(name = "ROL_ESTADO")

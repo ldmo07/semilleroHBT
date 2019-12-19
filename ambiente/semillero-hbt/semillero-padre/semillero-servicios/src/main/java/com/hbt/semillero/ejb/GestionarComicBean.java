@@ -20,8 +20,10 @@ import org.apache.log4j.Logger;
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ConsultaTotalPersonajesComicDTO;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.Personaje;
 import com.hbt.semillero.entidad.TematicaEnum;
 import com.hbt.semillero.exceptions.ComicException;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -101,15 +103,16 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	public void eliminarComic(Long idComic) throws ComicException {
 		try {
 			
-			/*Comic comicEliminar = em.find(Comic.class, idComic);
+			Comic comicEliminar = em.find(Comic.class, idComic);
 			if (comicEliminar != null) {
-				em.remove(comicEliminar);*/
-			Query query = (Query) em.createQuery("Delete From Comic c where c.id=:idComic").setParameter("idComic", idComic);
-			((javax.persistence.Query) query).executeUpdate();
+				em.remove(comicEliminar);
+			/*javax.persistence.Query query =em.createQuery("Delete From Comic c where c.id=:idComic").setParameter("idComic", idComic);
+			 query.executeUpdate();
 			em.flush();
-			em.clear();
+			em.clear();*/
 			
-		} catch (Exception e) {
+		}
+			}catch (Exception e) {
 			logger.error("Error al eliminar comic"+e);
 			throw new ComicException("CD-00f","error ejecutando eliminacion del comic", e);
 		}
@@ -252,4 +255,23 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		}
 	
 	}
+
+	@Override
+	public ComicDTO modificar(ComicDTO comicDTO) throws ComicException {
+		if(comicDTO.getId()==null) {
+			throw new ComicException("CD-00f","error identificador requerido");
+		}
+		javax.persistence.Query query=em.createQuery("UPDATE Comic comic "
+				+ "SET comic.estadoEnum = :estado, "
+				+ "comic.editorial = :editorial "
+				+ "WHERE comic.id = :id");	
+		
+		query.setParameter("estado", comicDTO.getEstadoEnum());
+		query.setParameter("editorial", comicDTO.getEditorial());
+		query.setParameter("id",comicDTO.getId());
+		query.executeUpdate();
+		return convertirComicToComicDTO(em.find(Comic.class, comicDTO.getId()));
+	}
+
+	
 }

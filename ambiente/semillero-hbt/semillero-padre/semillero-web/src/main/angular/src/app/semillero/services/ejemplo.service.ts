@@ -30,4 +30,12 @@ export class EjemploService extends AbstractService {
   public crearComic(comicDTO : ComicDTO): Observable<any> {
     return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarComic/crear',comicDTO);
   }
+
+  public eliminarComic(idComic : any): Observable<any> {
+    return this.httpClient.post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/eliminar?idComic=${Number(idComic)}`,null);
+  }
+
+  public editarComic(idComic : ComicDTO): Observable<any> {
+    return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar',idComic);
+  }
 }

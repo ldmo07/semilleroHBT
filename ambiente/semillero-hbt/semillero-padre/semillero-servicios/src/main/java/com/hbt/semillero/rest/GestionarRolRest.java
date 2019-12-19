@@ -20,6 +20,7 @@ import com.hbt.semillero.dto.RolDTO;
 import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
 import com.hbt.semillero.ejb.IGestionarRolLocal;
+import com.hbt.semillero.exceptions.ComicException;
 import com.hbt.semillero.exceptions.RolException;
 
 @Path("/GestionarRol")
@@ -40,16 +41,22 @@ public class GestionarRolRest {
 	@Path("/consultarRol")
 	@Produces(MediaType.APPLICATION_JSON)
 	public  List<RolDTO> consultarRol(){
-		try {
+		/*try {
 			return gestionarRolEJB.consultarRol();
 		} catch (RolException e) {
 			logger.error("excepcion consultar por id capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
 			return null;
+		}*/
+		
+		try {
+			return gestionarRolEJB.consultarRol();
+		} catch (RolException e) {
+			logger.error("excepcion Crear Comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			return null;
 		}
 		
-		
-		
-	};
+
+	}
 	
 	@GET
 	@Path("/consultarRolById")
