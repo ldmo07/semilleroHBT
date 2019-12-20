@@ -13,6 +13,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PERSONA")
 public class Persona implements Serializable {
+	
+	
+	
+	public Persona() {
+		super();
+	}
 
 	private static final long serialVersionUID = 1L;
 	

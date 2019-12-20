@@ -23,6 +23,8 @@ import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
 import { TallerComponent } from './semillero/componentes/taller/taller-component';
 import { from } from 'rxjs';
+import { GestionarPersonaComponent } from './semillero/componentes/gestionar-persona/gestionar-persona.component';
+import { VentaComponent } from './semillero/componentes/venta/venta.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { from } from 'rxjs';
     CrearPersonaComponent,
     GestionarComicComponent,
     TallerComponent,
-    CrudComicComponent
+    CrudComicComponent,
+    GestionarPersonaComponent,
+    VentaComponent
   ],
   imports: [
     BrowserModule,

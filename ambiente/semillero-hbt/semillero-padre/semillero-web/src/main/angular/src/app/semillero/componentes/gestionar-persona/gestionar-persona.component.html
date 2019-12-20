@@ -1,0 +1,89 @@
+<div class="container">
+    <form [formGroup]="gestionarPersonaForm">
+        <h1>Gestionar Persona</h1>
+        <hr>
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" *ngIf="MostrarAlerta">
+            <strong>{{MensajeExito}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="ndocumento">N° Documento:</label>
+                <input type="text" class="form-control" id="ndocumento" formControlName="ndocumento"
+                    [ngClass]="{ 'is-invalid': submitted && f.ndocumento.errors }" maxlength="50">
+                <div *ngIf="submitted && f.ndocumento.errors">
+                    <span class="text-danger" *ngIf="f.ndocumento.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="tipoDoc">Tipo Documento:</label>
+                    <select class="form-control" id="tipoDoc" formControlName="tipoDoc">
+                        <option value="Cedula">Cedula</option>
+                        <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                        <option value="Cedula de Extranjeria">Cedula de Extranjeria</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="FechaNaci">Fecha Nacimiento:</label>
+                <input type="text" class="form-control" id="FechaNaci" formControlName="FechaNaci">
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-success" (click)="crearActualizarPersona()">Crear/Editar</button>
+            </div>
+        </div>
+
+        <br>
+        
+        <div class="row" [hidden]="listaPersonas.length === 0">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">N°Documento</th>
+                            <th scope="col">Tipo Documento</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha de Nacimiento</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--date:"MM/dd/yy"
+                        | uppercase-->
+                        <tr *ngFor="let persona of listaPersonas;let i=index;">
+                            <th scope="row">{{persona.ndocumento}}</th>
+                            <td>{{persona.tipoDoc | uppercase }}</td>
+                            <td>{{persona.nombre | lowercase }}</td>
+                            <td>{{persona.FechaNaci | uppercase}}</td>                            
+                            <td>
+                                <i class="fas fa-search"  [routerLink]="['/crud',persona]" title="pasar"></i>
+                                <i class="fas fa-pencil-alt 2x ml-1 text-danger" (click)="editarpersona(i)" title="editar"></i>
+                                <i class="fas fa-trash-alt 2x ml-1" (click)="eliminarpersonaSer(i);mostrarMensaje=true;"></i>                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { GestionarPersonaComponent } from './gestionar-persona.component';
+
+describe('GestionarPersonaComponent', () => {
+  let component: GestionarPersonaComponent;
+  let fixture: ComponentFixture<GestionarPersonaComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ GestionarPersonaComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(GestionarPersonaComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

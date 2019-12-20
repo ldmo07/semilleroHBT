@@ -2,6 +2,7 @@ package com.hbt.semillero.rest;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,16 +16,18 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonaDTO;
+import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.ejb.GestionarPersonaBean;
 import com.hbt.semillero.ejb.IGestionarPersonaLocal;
 import com.hbt.semillero.exceptions.ComicException;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 @Path("/GestionarPersona")
 public class GestionarPersonaRest {
 	
 	final static Logger logger = Logger.getLogger(GestionarPersonaBean.class);
-	
+	@EJB
 	private IGestionarPersonaLocal gestionarPersonaEJB;
 	
 	@GET
@@ -38,14 +41,15 @@ public class GestionarPersonaRest {
 	@GET
 	@Path("/consultarPersonas")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PersonaDTO> consultarPersonas() {
+	public List<PersonaDTO> consultarPersonas(){
 		try {
 			return gestionarPersonaEJB.consultarPersonas();
 		} catch (ComicException e) {
-			logger.error("excepcion al Listar Personas capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
+			logger.error("excepcion Crear Comic capturada en el rest codigo "+e.getCodigo()+" mensaje "+e.getMensaje());
 			return null;
 		}
 	}
+	
 	
 	@POST
 	@Path("/crear")

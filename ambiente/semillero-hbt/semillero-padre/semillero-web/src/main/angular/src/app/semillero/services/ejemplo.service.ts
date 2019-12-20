@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { AbstractService } from './template.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ComicDTO } from '../dto/comic.dto';
+import { PersonaDTO } from '../dto/persona.dto';
 
 /**
  * Servicio encargado de llamar a los servicios REST de
@@ -38,4 +39,14 @@ export class EjemploService extends AbstractService {
   public editarComic(idComic : ComicDTO): Observable<any> {
     return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar',idComic);
   }
+
+  public crearPersona(personaDTO:PersonaDTO):Observable<any>{
+    return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarPersona/crear',personaDTO);
+    
+  }
+
+  public consultarPersona(): Observable<any> {
+    return this.httpClient.get('http://localhost:8085/semillero-servicios/rest/GestionarPersona/consultarPersonas');
+  }
+
 }

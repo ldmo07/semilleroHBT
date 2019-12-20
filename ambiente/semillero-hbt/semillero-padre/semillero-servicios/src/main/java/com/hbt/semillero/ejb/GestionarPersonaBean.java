@@ -13,9 +13,12 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonaDTO;
+import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.Persona;
+import com.hbt.semillero.entidad.Personaje;
 import com.hbt.semillero.exceptions.ComicException;
+import com.hbt.semillero.exceptions.PersonajeException;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -87,17 +90,21 @@ public class GestionarPersonaBean implements IGestionarPersonaLocal{
 	@Override
 	public List<PersonaDTO> consultarPersonas() throws ComicException {
 		try {
-			logger.debug("se ejecuta el método consultar personas");
-			List<PersonaDTO> resultadosPersonaDTO = new ArrayList<PersonaDTO>();
-			List<Persona> resultados = em.createQuery("select p from Persona p").getResultList();
-			for (Persona persona:resultados) {
+			logger.debug("Aqui inicia el metodo ConsultarPersona");
+
+			String query = "SELECT persona FROM Persona persona";
+			List<Persona> resultados = em.createQuery(query).getResultList();
+			List<PersonaDTO> resultadosPersonaDTO = new ArrayList<>();
+			for (Persona persona : resultados) {
 				resultadosPersonaDTO.add(convertirPersonaToPersonaDTO(persona));
 			}
+			logger.debug("Aqui finaliza el metodo ConsultarPersona");
+
 			return resultadosPersonaDTO;
 		} catch (Exception e) {
-			logger.error("Error al consultar persona "+e);
-			throw new ComicException("CD-00f","error ejecutando consulta de la persona", e);
-		}
+			logger.error("Error al listar personaje"+e);
+			throw new ComicException("CD-00f","error Listando los personajes", e);
+		}			
 	}
 
 	@Override

@@ -1,0 +1,71 @@
+<div class="container">
+    <form [formGroup]="gestionarVentaForm">
+        <h1>Gestion de Compras</h1>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tematica">Cliente:</label>
+                    <select class="form-control" id="tematica" formControlName="tematica">
+                        <option value="" *ngFor="let comic of listaPersonas;let i=index;">AVENTURAS</option>
+                  
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tematica">Comic</label>
+                    <select class="form-control" id="tematica" formControlName="tematica">
+                        <option value="" *ngFor="let comic of listaComics;let i=index;">AVENTURAS</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <label for="coleccion">Fecha:</label>
+                <input type="text" class="form-control" id="coleccion" formControlName="coleccion">
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-success" (click)="crearVenta()">Registrar</button>
+            </div>
+        </div>
+
+        <br>
+        
+        <div class="row" [hidden]="listaVentas.length === 0">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Comic</th>
+                            <th scope="col">Fecha de Compra</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--date:"MM/dd/yy"
+                        | uppercase-->
+                        <tr *ngFor="let venta of listaVentas;let i=index;">
+                            
+                            <td>{{venta.idPersona | uppercase }}</td>
+                            <td>{{venta.idComic | lowercase }}</td>
+                            <td>{{venta.fechaVenta }}</td>
+                            
+                            <td>                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+            </div>
+        </div>
+    </form>
+
+</div>
